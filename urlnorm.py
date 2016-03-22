@@ -105,8 +105,8 @@ params_unsafe_list = ' ?=+%#;'
 qs_unsafe_list = ' ?&=+%#'
 fragment_unsafe_list = ' +%#'
 path_unsafe_list = ' /?;%+#'
-_hextochr = dict(('%02x' % i, chr(i)) for i in range(256))
-_hextochr.update(('%02X' % i, chr(i)) for i in range(256))
+_hextochr = dict(('{0:02x}'.format(i), chr(i)) for i in range(256))
+_hextochr.update(('{0:02X}'.format(i), chr(i)) for i in range(256))
 
 def unquote_path(s):
     return unquote_safe(s, path_unsafe_list)
@@ -197,19 +197,19 @@ MAX_IP=0xffffffffL
 def int2ip(ipnum):
     assert isinstance(ipnum, int)
     if MAX_IP < ipnum or ipnum < 0:
-        raise TypeError("expected int between 0 and %d inclusive" % MAX_IP)
+        raise TypeError("expected int between 0 and {0:d} inclusive".format(MAX_IP))
     ip1 = ipnum >> 24
     ip2 = ipnum >> 16 & 0xFF
     ip3 = ipnum >> 8 & 0xFF
     ip4 = ipnum & 0xFF
-    return "%d.%d.%d.%d" % (ip1, ip2, ip3, ip4)
+    return "{0:d}.{1:d}.{2:d}.{3:d}".format(ip1, ip2, ip3, ip4)
 
 def norm_netloc(scheme, netloc):
     if not netloc:
         return netloc
     match = _server_authority.match(netloc)
     if not match:
-        raise InvalidUrl('no host in netloc %r' % netloc)
+        raise InvalidUrl('no host in netloc {0!r}'.format(netloc))
 
     userinfo, host, port = match.groups()
     # catch a few common errors:
@@ -217,7 +217,7 @@ def norm_netloc(scheme, netloc):
         try:
             host = int2ip(int(host))
         except TypeError:
-            raise InvalidUrl('host %r does not escape to a valid ip' % host)
+            raise InvalidUrl('host {0!r} does not escape to a valid ip'.format(host))
     if host[-1] == '.':
         host = host[:-1]
 
@@ -227,9 +227,9 @@ def norm_netloc(scheme, netloc):
         authority = '.'.join(subdomains)
 
     if userinfo:
-        authority = "%s@%s" % (userinfo, authority)
+        authority = "{0!s}@{1!s}".format(userinfo, authority)
     if port and port != _default_port.get(scheme, None):
-        authority = "%s:%s" % (authority, port)
+        authority = "{0!s}:{1!s}".format(authority, port)
     return authority
 
 
@@ -238,7 +238,7 @@ def _idn(subdomain):
         try:
             subdomain = subdomain.decode('idna')
         except UnicodeError:
-            raise InvalidUrl('Error converting subdomain %r to IDN' % subdomain)
+            raise InvalidUrl('Error converting subdomain {0!r} to IDN'.format(subdomain))
     return subdomain
 
 
