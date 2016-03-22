@@ -107,7 +107,7 @@ def pytest_generate_tests(metafunc):
 def test_invalid_urls(url):
     try:
         output = urlnorm.norm(url)
-        print '%r' % output
+        print '{0!r}'.format(output)
     except urlnorm.InvalidUrl:
         return
     assert 1 == 0, "this should have raised an InvalidUrl exception"

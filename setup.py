@@ -12,5 +12,5 @@ setup(name='urlnorm',
         author='Jehiah Czebotar',
         author_email='jehiah@gmail.com',
         url='http://github.com/jehiah/urlnorm',
-        download_url="http://github.com/downloads/jehiah/urlnorm/urlnorm-%s.tar.gz" % version,
+        download_url="http://github.com/downloads/jehiah/urlnorm/urlnorm-{0!s}.tar.gz".format(version),
         )
